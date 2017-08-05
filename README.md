@@ -38,6 +38,7 @@ python3 app.py
 ### Break (Descanso) - 10 min
 
 [EN] We debug bugs and prepare for the next point.
+
 [ES] Depuramos bugs y nos preparamos para el siguiente punto.
 
 ### Part 2 - Databases and CRUD with Flask (Bases de datos y CRUD elementos con Flask)
@@ -45,7 +46,7 @@ python3 app.py
 ### Break (Descanso) - 10 min
 
 [EN] We take air for the last part. Otherwise, we make as we go to the bathroom and do not come back.
-[ES] Cogemos aire para la última parte. En caso contrario, hacemos como que vamos al baño y nos piramos.
 
+[ES] Cogemos aire para la última parte. En caso contrario, hacemos como que vamos al baño y nos piramos.
 
 ### Part 3 - Sending emails with new items (Envío de emails con nuevos elementos)
