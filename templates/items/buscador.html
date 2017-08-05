@@ -1,13 +1,46 @@
 {% extends 'layouts/master.html' %}
+{% set active_page = "buscador" %}
 {% block title %}Buscador{% endblock %}
 {% block body %}
 <h1>Buscador</h1>
 <div class="row">
     <div class="col-xs-12">
-        <form >
-            <input type="text" id="nombre" class="form-control" name="nombre" placeholder="Buscar...">
-            <input type="submit" class="form-control" value="Buscar">
+        <form method="post">
+            {{ form.csrf_token }}
+            {% for input in form %}
+                {% if input.type != 'CSRFTokenField' %}
+                    <div class="form-group">
+                        {# Label #}
+                        {{ input.label }}
+                        {# Input #}
+                        {{ input(class="form-control") }}
+                        {# Errors #}
+                        {% if input.errors %}
+                            <div class="has-error">
+                            {% for error in input.errors %}
+                                <label class="help-block">
+                                    {{ error }}
+                                </label>
+                            {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <input type="submit" class="btn btn-primary" value="Buscar">
         </form>
     </div>
 </div>
+{% if results %}
+    <table class="table">
+        {% for item in results %}
+        <tr>
+            <td><img class="img-responsive" src="{{ item.pictureURL }}" alt="{{ item.title }}"></td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.price }}</td>
+            <td><a href="#" class="btn btn-success">+</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
 {% endblock %}
