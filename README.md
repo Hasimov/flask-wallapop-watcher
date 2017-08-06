@@ -249,6 +249,7 @@ class SearchForm(FlaskForm):
 ```
 
 ![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) We load it and pass it to the template.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Lo cargamos y se lo pasamos a la plantilla.
 
 ```python3
