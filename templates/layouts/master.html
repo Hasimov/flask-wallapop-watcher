@@ -4,12 +4,12 @@
         <title>{% block title %}{% endblock %} | Vigilador de Wallapop</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://bootswatch.com/cerulean/bootstrap.css">
+        <link rel="stylesheet" href="https://bootswatch.com/superhero/bootstrap.css">
     </head>
     <body>
         <div class="container">
             <ul class="nav nav-pills nav-justified">
-                <li role="presentation" {% if active_page == "buscador" %}class="active"{% endif %}><a href="{{ url_for('buscador') }}">Buscador</a></li>
+                <li role="presentation" {% if active_page == "buscador" or not active_page %}class="active"{% endif %}><a href="{{ url_for('buscador') }}">Buscador</a></li>
                 <li role="presentation" {% if active_page == "programadas" %}class="active"{% endif %}><a href="{{ url_for('programadas') }}">Programadas</a></li>
             </ul>
             {% block body %}{% endblock %}
