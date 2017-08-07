@@ -3,4 +3,28 @@
 {% block title %}Programadas{% endblock %}
 {% block body %}
 <h1>Programadas</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Imagen</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Precio</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in programado_all %}
+        <tr>
+            <td><img src="{{ item.picture_URL }}" alt="{{ item.title }}"></td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.price }}</td>
+            <td>
+                <form action="{{ url_for('programadas_borrar') }}" method="post">
+                    <input type="hidden" name="id" value="{{ item.id }}">                    
+                    <input type="submit" class="btn btn-danger" value="-">
+                </form>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

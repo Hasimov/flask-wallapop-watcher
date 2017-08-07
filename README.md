@@ -24,6 +24,9 @@ pip3 install virtualenv
 virtualenv --python=python3 .venv
 source .venv/bin/activate
 pip3 install -r requirements.txt
+python3 models.py db init
+python3 models.py db migrate
+python3 models.py db upgrade
 python3 app.py
 ````
 
@@ -31,6 +34,7 @@ python3 app.py
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Después abrir en tu navegador favorito, que posiblemente será el fantástico Firefox, una pestaña nueva con [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
+---
 ## Workshop (Taller)
 
 ### Minimum requirements (Requisitos mínimos)
@@ -50,6 +54,7 @@ sqlite3 --help
 ping -c 5 google.com
 ```
 
+---
 ### Part 1 - Flask Core y Search (Parte 1 - Nucleo de Flask y Buscador) 50 min
 
 #### 1.1 Ready? 
@@ -68,6 +73,7 @@ wget https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/requ
 pip3 install -r requirements.txt
 ```
 
+---
 #### 1.1 Hello PyConES17
 
 ![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) Template Flask. We created a new file called **app.py**.
@@ -104,6 +110,7 @@ python3 app.py
 http://127.0.0.1:5000
 ```
 
+---
 #### 1.2 Templates
 
 ![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) We created a folder called **templates**. Inside we make two more folders: **layouts** and **items**. In **layouts** we will make a new one with the name **master.html**.
@@ -231,6 +238,7 @@ if __name__ == '__main__':
 </html>
 ```
 
+---
 #### 1.3 Forms
 
 ![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) We make the new file **forms.py**.
@@ -261,7 +269,7 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'mi secreto'
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=('GET', 'POST'))
 def buscador():
     form = SearchForm()
     if form.validate_on_submit():
@@ -319,6 +327,7 @@ if __name__ == '__main__':
 {% endblock %}
 ```
 
+---
 #### 1.4 Search
 
 ![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) It's time for fun. First we update our **app.py** to get the form data if you pass the validations. Then, with that information, we will make a call to the Wallapop API. We will only need the URL that they use in your APP. With **urllib3** we will have all the results in a simple dictionary. Which is great, since it is easy to iterate within our template.
@@ -338,7 +347,7 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'mi secreto'
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=('GET', 'POST'))
 def buscador():
     form = SearchForm()
     results = None
@@ -436,12 +445,628 @@ if __name__ == '__main__':
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Depuramos bugs y nos preparamos para el siguiente punto.
 
+---
 ### Part 2 - Databases and CRUD with Flask (Bases de datos y CRUD elementos con Flask)
 
+#### 2.1 Models
+
+[ES] Con **Flask-alquemy** vamos a definir la estructura de nuestra base de datos. En este caso tendremos una única tabla llamada *Programado* con los campos: *id*, *item_id*, *title*, *picture_URL* y *price*. Para ello crearemos un nuevo archivo con el nombre **models.py**.
+
+```python3
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+class Programado(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    item_id = db.Column(db.Integer)
+    title = db.Column(db.String(128))
+    picture_URL = db.Column(db.String(300))
+    price = db.Column(db.String(10))
+
+```
+
+[ES] Esta forma de trabajar tan limpia carece de varias funcionalidades básicas, como migraciones o la posibilidad de ejecutar ordenes por medio del terminal. Para ello le sumaremos **Flask-Migrate** para las migraciones automáticas y **Flask-Script** para su gestión.
+
+
+```python3
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+migrate = Migrate(app, db)
+manager = Manager(app)
+manager.add_command('db', MigrateCommand)
+
+class Programado(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    item_id = db.Column(db.Integer)
+    title = db.Column(db.String(128))
+    picture_URL = db.Column(db.String(300))
+    price = db.Column(db.String(10))
+
+
+if __name__ == "__main__":
+    manager.run()
+```
+
+[ES] Abrimos nuestro terminal e iniciamos la base de datos, creamos la primera migración y actualizamos la base de datos.
+
+```bash
+python3 models.py db init
+python3 models.py db migrate
+python3 models.py db upgrade
+```
+
+[ES] Comprobamos que todo ha ido bien.
+
+```bash
+sqlite3 database.sqlite
+.schema Programado
+.exit
+```
+
+---
+#### 2.2 Save item
+
+[ES] Para guarda un elemento necesitamos modificar nuestra plantilla **buscador.html** para enviar la información que queremos guardar usando *POST*. Qué sencillamente será un **<form>** con las variables ocultas.
+
+```jinja2
+{% extends 'layouts/master.html' %}
+{% set active_page = "buscador" %}
+{% block title %}Buscador{% endblock %}
+{% block body %}
+<h1>Buscador</h1>
+<div class="row">
+    <div class="col-xs-12">
+        <form method="post">
+            {{ form.csrf_token }}
+            {% for input in form %}
+                {% if input.type != 'CSRFTokenField' %}
+                    <div class="form-group">
+                        {# Label #}
+                        {{ input.label }}
+                        {# Input #}
+                        {{ input(class="form-control") }}
+                        {# Errors #}
+                        {% if input.errors %}
+                            <div class="has-error">
+                            {% for error in input.errors %}
+                                <label class="help-block">
+                                    {{ error }}
+                                </label>
+                            {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <input type="submit" class="btn btn-primary" value="Buscar">
+        </form>
+    </div>
+</div>
+{% if results %}
+    <table class="table">
+        {% for item in results %}
+        <tr>
+            <td><img class="img-responsive" src="{{ item.pictureURL }}" alt="{{ item.title }}"></td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.price }}</td>
+            <td>
+                <form action="{{ url_for('programadas_nuevo') }}" method="post">
+                    <input type="hidden" name="itemId" value="{{ item.itemId }}">
+                    <input type="hidden" name="title" value="{{ item.title }}">
+                    <input type="hidden" name="price" value="{{ item.price }}">
+                    <input type="hidden" name="pictureURL" value="{{ item.pictureURL }}">
+                    <input type="submit" class="btn btn-success" value="+">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+{% endblock %}
+```
+
+[ES] Ahora, tendremos que crear la función para **programadas_nuevo** en **app.py**. Lo primero que le decimos es que solo puede aceptar peticiones *POST*. A continuación creamos variables para guardar la información del formulario. Después creamos el registro en la base de datos. Por último redireccionamos a la anterior página para ver el nuevo elemento.
+
+[ES] Por partes. Importamos **db** que será nuestro *ORM*, y **Programado** que será la tabla a manipular.
+
+```python3
+from models import db, Programado
+```
+
+[ES] Creamos el nuevo registro.
+
+```python3
+my_program = Programado(
+    item_id=itemId,
+    title=title,
+    picture_URL=pictureURL,
+    price=price 
+    )
+```
+
+[ES] Lo añadimos a la cola.
+
+```python3
+db.session.add(my_program)
+```
+
+[ES] Y ejecutamos las modificaciones. En caso que fallara, dejaría los datos como estaban. 
+
+```python3
+try:
+    db.session.commit()
+except:
+    db.session.rollback()
+```
+
+[ES] Todo junto quedará así.
+
+```python3
+from flask import Flask, render_template, request, redirect, url_for
+from forms import SearchForm
+# Get data Wallapop
+import json
+from urllib3 import PoolManager
+import urllib.parse
+# Database
+from models import db, Programado
+
+# Flask
+app = Flask(__name__)
+app.config['DEBUG'] = True
+app.config['SECRET_KEY'] = 'mi secreto'
+
+@app.route('/', methods=('GET', 'POST'))
+def buscador():
+    form = SearchForm()
+    results = None
+    if form.validate_on_submit():
+        name = form.name.data
+        price_max = form.price_max.data or ''
+        # Search in Wallapop
+        results = get_resultados(name, price_max)
+    return render_template('items/buscador.html', form=form, results=results)
+
+
+def get_resultados(name='', price_max=''):
+    http = PoolManager()
+    url_api = 'http://es.wallapop.com/rest/items?minPrice=&maxPrice={price_max}&dist=&order=creationDate-des&lat=41.398077&lng=2.170432&kws={kws}'.format(
+        kws=urllib.parse.quote(name, safe=''),
+        price_max=price_max
+    )
+    results = http.request('GET', url_api)
+    results = json.loads(
+        results.data.decode('utf-8')
+    )
+    return results['items']
+
+
+@app.route('/programadas/nuevo', methods=('POST',))
+def programadas_nuevo():
+    itemId = int(request.form['itemId'])
+    title = request.form['title']
+    pictureURL = request.form['pictureURL']
+    price = request.form['price']
+    # We saved in the database
+    my_program = Programado(
+        item_id=itemId,
+        title=title,
+        picture_URL=pictureURL,
+        price=price 
+        )
+    db.session.add(my_program)
+    try:
+        db.session.commit()
+    except:
+        db.session.rollback()
+
+    return redirect(url_for('programadas'))
+
+
+if __name__ == '__main__':
+    app.run()
+```
+---
+#### 2.3 View items
+
+[ES] Lamentablemente veremos la página vacía. Por ahora. Haremos una consulta a la base de datos para que nos de todos los registros de la tabla **Programado**, y se lo pasaremos a la plantilla. Para ello modificaremos la función que muestra la plantilla **programadas.html**, que en nuestro caso se llama **programadas** y esta en **app.py**.
+
+```python3
+from flask import Flask, render_template, request, redirect, url_for
+from forms import SearchForm
+# Get data Wallapop
+import json
+from urllib3 import PoolManager
+import urllib.parse
+# Database
+from models import db, Programado
+
+# Flask
+app = Flask(__name__)
+app.config['DEBUG'] = True
+app.config['SECRET_KEY'] = 'mi secreto'
+
+@app.route('/', methods=('GET', 'POST'))
+def buscador():
+    form = SearchForm()
+    results = None
+    if form.validate_on_submit():
+        name = form.name.data
+        price_max = form.price_max.data or ''
+        # Search in Wallapop
+        results = get_resultados(name, price_max)
+    return render_template('items/buscador.html', form=form, results=results)
+
+
+@app.route('/programadas')
+def programadas():
+    programado_all = Programado.query.all()
+    return render_template('items/programadas.html', programado_all=programado_all)
+
+
+def get_resultados(name='', price_max=''):
+    http = PoolManager()
+    url_api = 'http://es.wallapop.com/rest/items?minPrice=&maxPrice={price_max}&dist=&order=creationDate-des&lat=41.398077&lng=2.170432&kws={kws}'.format(
+        kws=urllib.parse.quote(name, safe=''),
+        price_max=price_max
+    )
+    results = http.request('GET', url_api)
+    results = json.loads(
+        results.data.decode('utf-8')
+    )
+    return results['items']
+
+
+@app.route('/programadas/nuevo', methods=('POST',))
+def programadas_nuevo():
+    itemId = int(request.form['itemId'])
+    title = request.form['title']
+    pictureURL = request.form['pictureURL']
+    price = request.form['price']
+    # We saved in the database
+    my_program = Programado(
+        item_id=itemId,
+        title=title,
+        picture_URL=pictureURL,
+        price=price 
+        )
+    db.session.add(my_program)
+    try:
+        db.session.commit()
+    except:
+        db.session.rollback()
+
+    return redirect(url_for('programadas'))
+
+
+if __name__ == '__main__':
+    app.run()
+```
+
+[ES] Actualizamos la plantilla **programadas.html** con un *bucle* que muestre todos los resultados en una tabla.
+
+```jinja2
+{% extends 'layouts/master.html' %}
+{% set active_page = "programadas" %}
+{% block title %}Programadas{% endblock %}
+{% block body %}
+<h1>Programadas</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Imagen</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Precio</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in programado_all %}
+        <tr>
+            <td><img src="{{ item.picture_URL }}" alt="{{ item.title }}"></td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.price }}</td>
+            <td></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+```
+
+---
+#### 2.4 Delete item
+
+[ES] Repetiremos la estrategia anterior. En el *bucle* que muestra todos los resultados en **programadas.html**, añadimos un formulario que nos envíe un *id* a una futura función que definiremos en **app.py**.
+
+```jinja2
+{% extends 'layouts/master.html' %}
+{% set active_page = "programadas" %}
+{% block title %}Programadas{% endblock %}
+{% block body %}
+<h1>Programadas</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Imagen</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Precio</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in programado_all %}
+        <tr>
+            <td><img src="{{ item.picture_URL }}" alt="{{ item.title }}"></td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.price }}</td>
+            <td>
+                <form action="{{ url_for('programadas_borrar') }}" method="post">
+                    <input type="hidden" name="id" value="{{ item.id }}">                    
+                    <input type="submit" class="btn btn-danger" value="-">
+                </form>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+```
+
+[ES] La manera de eliminar un registro consiste en realizar una busqueda de los elementos que quieres eliminar, y luego ponerlo en la cola para eliminarlos. Por último ejecutas la orden como antes.
+
+
+```python3
+db.session.delete(my_program)
+try:
+    db.session.commit()
+except:
+    db.session.rollback()
+```
+
+[ES] Quedaría así.
+
+```python3
+from flask import Flask, render_template, request, redirect, url_for
+from forms import SearchForm
+# Get data Wallapop
+import json
+from urllib3 import PoolManager
+import urllib.parse
+# Database
+from models import db, Programado
+
+# Flask
+app = Flask(__name__)
+app.config['DEBUG'] = True
+app.config['SECRET_KEY'] = 'mi secreto'
+
+@app.route('/', methods=('GET', 'POST'))
+def buscador():
+    form = SearchForm()
+    results = None
+    if form.validate_on_submit():
+        name = form.name.data
+        price_max = form.price_max.data or ''
+        # Search in Wallapop
+        results = get_resultados(name, price_max)
+    return render_template('items/buscador.html', form=form, results=results)
+
+
+@app.route('/programadas')
+def programadas():
+    programado_all = Programado.query.all()
+    return render_template('items/programadas.html', programado_all=programado_all)
+
+
+def get_resultados(name='', price_max=''):
+    http = PoolManager()
+    url_api = 'http://es.wallapop.com/rest/items?minPrice=&maxPrice={price_max}&dist=&order=creationDate-des&lat=41.398077&lng=2.170432&kws={kws}'.format(
+        kws=urllib.parse.quote(name, safe=''),
+        price_max=price_max
+    )
+    results = http.request('GET', url_api)
+    results = json.loads(
+        results.data.decode('utf-8')
+    )
+    return results['items']
+
+
+@app.route('/programadas/nuevo', methods=('POST',))
+def programadas_nuevo():
+    itemId = int(request.form['itemId'])
+    title = request.form['title']
+    pictureURL = request.form['pictureURL']
+    price = request.form['price']
+    # We saved in the database
+    my_program = Programado(
+        item_id=itemId,
+        title=title,
+        picture_URL=pictureURL,
+        price=price 
+        )
+    db.session.add(my_program)
+    try:
+        db.session.commit()
+    except:
+        db.session.rollback()
+
+    return redirect(url_for('programadas'))
+
+
+@app.route('/programadas/borrar', methods=('POST',))
+def programadas_borrar():
+    my_program = Programado.query.get(request.form['id'])
+    db.session.delete(my_program)
+    try:
+        db.session.commit()
+    except:
+        db.session.rollback()
+
+    return redirect(url_for('programadas'))
+
+
+if __name__ == '__main__':
+    app.run()
+```
+
+---
+#### 2.5 Flash messages
+
+[ES] Tenemos un problema de usabilidad: ¡El usuario esta a ciegas cuando añade o borra! Tenemos que informarle de que ha ocurrido. Para ello nos haremos uso de los **Fash messages**. Como queremos que se vean en todas nuestras páginas, modificamos **master.html**.
+
+```jinja2
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>{% block title %}{% endblock %} | Vigilador de Wallapop</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://bootswatch.com/superhero/bootstrap.css">
+    </head>
+    <body>
+        <div class="container">
+            <ul class="nav nav-pills nav-justified">
+                <li role="presentation" {% if active_page == "buscador" or not active_page %}class="active"{% endif %}><a href="{{ url_for('buscador') }}">Buscador</a></li>
+                <li role="presentation" {% if active_page == "programadas" %}class="active"{% endif %}><a href="{{ url_for('programadas') }}">Programadas</a></li>
+            </ul>
+            {# Flashed messages #}
+			{% with messages = get_flashed_messages() %}
+			  {% if messages %}
+				{% for message in messages %}
+				  <div class="alert alert-success" role="alert">{{ message }}</div>
+				{% endfor %}
+			  {% endif %}
+			{% endwith %}
+            {# End Flashed messages #}
+            {% block body %}{% endblock %}
+        </div>
+    </body>
+</html>
+```
+
+[ES] Ahora ya será visible todos los mensajes en cajas elegantes de *Bootstrap*. Ahora importamos **flash**.
+
+```python3
+from flask import Flask, render_template, request, redirect, url_for, flash
+```
+
+[ES] Y añadimos los mensajes que deseamos ver. Por ejemplo.
+
+```python3
+try:
+    db.session.commit()
+    flash('Añadida con éxito.')
+except:
+    db.session.rollback()
+```
+
+[ES] Nuestro **app.py** se nos quedaría así.
+
+```python3
+from flask import Flask, render_template, request, redirect, url_for, flash
+from forms import SearchForm
+# Get data Wallapop
+import json
+from urllib3 import PoolManager
+import urllib.parse
+# Database
+from models import db, Programado
+
+# Flask
+app = Flask(__name__)
+app.config['DEBUG'] = True
+app.config['SECRET_KEY'] = 'mi secreto'
+
+@app.route('/', methods=('GET', 'POST'))
+def buscador():
+    form = SearchForm()
+    results = None
+    if form.validate_on_submit():
+        name = form.name.data
+        price_max = form.price_max.data or ''
+        # Search in Wallapop
+        results = get_resultados(name, price_max)
+    return render_template('items/buscador.html', form=form, results=results)
+
+
+@app.route('/programadas')
+def programadas():
+    programado_all = Programado.query.all()
+    return render_template('items/programadas.html', programado_all=programado_all)
+
+
+def get_resultados(name='', price_max=''):
+    http = PoolManager()
+    url_api = 'http://es.wallapop.com/rest/items?minPrice=&maxPrice={price_max}&dist=&order=creationDate-des&lat=41.398077&lng=2.170432&kws={kws}'.format(
+        kws=urllib.parse.quote(name, safe=''),
+        price_max=price_max
+    )
+    results = http.request('GET', url_api)
+    results = json.loads(
+        results.data.decode('utf-8')
+    )
+    return results['items']
+
+
+@app.route('/programadas/nuevo', methods=('POST',))
+def programadas_nuevo():
+    itemId = int(request.form['itemId'])
+    title = request.form['title']
+    pictureURL = request.form['pictureURL']
+    price = request.form['price']
+    # We saved in the database
+    my_program = Programado(
+        item_id=itemId,
+        title=title,
+        picture_URL=pictureURL,
+        price=price 
+        )
+    db.session.add(my_program)
+    try:
+        db.session.commit()
+        flash('Añadida con éxito.')
+    except:
+        db.session.rollback()
+
+    return redirect(url_for('programadas'))
+
+
+@app.route('/programadas/borrar', methods=('POST',))
+def programadas_borrar():
+    my_program = Programado.query.get(request.form['id'])
+    db.session.delete(my_program)
+    try:
+        db.session.commit()
+        flash('Borrada "{title}".'.format(title=my_program.title))
+    except:
+        db.session.rollback()
+
+    return redirect(url_for('programadas'))
+
+
+if __name__ == '__main__':
+    app.run()
+```
+
+---
 ### Break (Descanso) - 10 min
 
 ![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) We take air for the last part. Otherwise, we make as we go to the bathroom and do not come back.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Cogemos aire para la última parte. En caso contrario, hacemos como que vamos al baño y nos piramos.
 
+---
 ### Part 3 - Sending emails with new items (Envío de emails con nuevos elementos)

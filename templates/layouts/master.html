@@ -12,6 +12,15 @@
                 <li role="presentation" {% if active_page == "buscador" or not active_page %}class="active"{% endif %}><a href="{{ url_for('buscador') }}">Buscador</a></li>
                 <li role="presentation" {% if active_page == "programadas" %}class="active"{% endif %}><a href="{{ url_for('programadas') }}">Programadas</a></li>
             </ul>
+            {# Flashed messages #}
+			{% with messages = get_flashed_messages() %}
+			  {% if messages %}
+				{% for message in messages %}
+				  <div class="alert alert-success" role="alert">{{ message }}</div>
+				{% endfor %}
+			  {% endif %}
+			{% endwith %}
+            {# End Flashed messages #}
             {% block body %}{% endblock %}
         </div>
     </body>
