@@ -14,10 +14,7 @@ manager.add_command('db', MigrateCommand)
 
 class Programado(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    item_id = db.Column(db.Integer)
     title = db.Column(db.String(128))
-    picture_URL = db.Column(db.String(300))
-    price = db.Column(db.String(10))
 
 
 if __name__ == "__main__":

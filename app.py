@@ -45,16 +45,10 @@ def get_resultados(name='', price_max=''):
 
 @app.route('/programadas/nuevo', methods=('POST',))
 def programadas_nuevo():
-    itemId = int(request.form['itemId'])
     title = request.form['title']
-    pictureURL = request.form['pictureURL']
-    price = request.form['price']
     # We saved in the database
     my_program = Programado(
-        item_id=itemId,
-        title=title,
-        picture_URL=pictureURL,
-        price=price 
+        title=title
         )
     db.session.add(my_program)
     try:

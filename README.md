@@ -88,7 +88,6 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'mi secreto'
 
-
 @app.route('/')
 def buscador():
     return 'Hello PyConES17 !!!'
@@ -463,10 +462,7 @@ db = SQLAlchemy(app)
 
 class Programado(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    item_id = db.Column(db.Integer)
     title = db.Column(db.String(128))
-    picture_URL = db.Column(db.String(300))
-    price = db.Column(db.String(10))
 
 ```
 
@@ -490,10 +486,7 @@ manager.add_command('db', MigrateCommand)
 
 class Programado(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    item_id = db.Column(db.Integer)
     title = db.Column(db.String(128))
-    picture_URL = db.Column(db.String(300))
-    price = db.Column(db.String(10))
 
 
 if __name__ == "__main__":
@@ -519,7 +512,7 @@ sqlite3 database.sqlite
 ---
 #### 2.2 Save item
 
-[ES] Para guarda un elemento necesitamos modificar nuestra plantilla **buscador.html** para enviar la información que queremos guardar usando *POST*. Qué sencillamente será un **<form>** con las variables ocultas.
+[ES] Para guarda un elemento necesitamos modificar nuestra plantilla **buscador.html** para enviar la información que queremos guardar usando *POST*. Qué sencillamente será un **<form>** con las variables ocultas. En este caso lo que haremos será mostrar un botón solo visible cuando recibamos una petición *POST*. Su finalidad será realizar una petición a la página *programadas_nuevo()* con el nombre que hemos buscado.
 
 ```jinja2
 {% extends 'layouts/master.html' %}
@@ -552,7 +545,13 @@ sqlite3 database.sqlite
                 {% endif %}
             {% endfor %}
             <input type="submit" class="btn btn-primary" value="Buscar">
-        </form>
+            </form>
+            {% if results %}
+                <form action="{{ url_for('programadas_nuevo') }}" method="post">
+                    <input type="hidden" name="title" value="{{ form.name.data }}">
+                    <input type="submit" class="btn btn-success" value="Programar">
+                </form>
+            {% endif %}
     </div>
 </div>
 {% if results %}
@@ -562,15 +561,6 @@ sqlite3 database.sqlite
             <td><img class="img-responsive" src="{{ item.pictureURL }}" alt="{{ item.title }}"></td>
             <td>{{ item.title }}</td>
             <td>{{ item.price }}</td>
-            <td>
-                <form action="{{ url_for('programadas_nuevo') }}" method="post">
-                    <input type="hidden" name="itemId" value="{{ item.itemId }}">
-                    <input type="hidden" name="title" value="{{ item.title }}">
-                    <input type="hidden" name="price" value="{{ item.price }}">
-                    <input type="hidden" name="pictureURL" value="{{ item.pictureURL }}">
-                    <input type="submit" class="btn btn-success" value="+">
-                </form>
-            </td>
         </tr>
         {% endfor %}
     </table>
@@ -578,7 +568,7 @@ sqlite3 database.sqlite
 {% endblock %}
 ```
 
-[ES] Ahora, tendremos que crear la función para **programadas_nuevo** en **app.py**. Lo primero que le decimos es que solo puede aceptar peticiones *POST*. A continuación creamos variables para guardar la información del formulario. Después creamos el registro en la base de datos. Por último redireccionamos a la anterior página para ver el nuevo elemento.
+[ES] Ahora, tendremos que crear la función para *programadas_nuevo()* en **app.py**. Lo primero que le decimos es que solo puede aceptar peticiones *POST*. A continuación creamos variables para guardar la información del formulario. Después creamos el registro en la base de datos. Por último redireccionamos a la anterior página para ver el nuevo elemento.
 
 [ES] Por partes. Importamos **db** que será nuestro *ORM*, y **Programado** que será la tabla a manipular.
 
@@ -590,10 +580,7 @@ from models import db, Programado
 
 ```python3
 my_program = Programado(
-    item_id=itemId,
-    title=title,
-    picture_URL=pictureURL,
-    price=price 
+    title=title
     )
 ```
 
@@ -656,16 +643,10 @@ def get_resultados(name='', price_max=''):
 
 @app.route('/programadas/nuevo', methods=('POST',))
 def programadas_nuevo():
-    itemId = int(request.form['itemId'])
     title = request.form['title']
-    pictureURL = request.form['pictureURL']
-    price = request.form['price']
     # We saved in the database
     my_program = Programado(
-        item_id=itemId,
-        title=title,
-        picture_URL=pictureURL,
-        price=price 
+        title=title
         )
     db.session.add(my_program)
     try:
@@ -732,16 +713,11 @@ def get_resultados(name='', price_max=''):
 
 @app.route('/programadas/nuevo', methods=('POST',))
 def programadas_nuevo():
-    itemId = int(request.form['itemId'])
     title = request.form['title']
-    pictureURL = request.form['pictureURL']
-    price = request.form['price']
     # We saved in the database
+
     my_program = Programado(
-        item_id=itemId,
-        title=title,
-        picture_URL=pictureURL,
-        price=price 
+        title=title
         )
     db.session.add(my_program)
     try:
@@ -767,19 +743,13 @@ if __name__ == '__main__':
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">Imagen</th>
             <th scope="col">Titulo</th>
-            <th scope="col">Precio</th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
         {% for item in programado_all %}
         <tr>
-            <td><img src="{{ item.picture_URL }}" alt="{{ item.title }}"></td>
             <td>{{ item.title }}</td>
-            <td>{{ item.price }}</td>
-            <td></td>
         </tr>
         {% endfor %}
     </tbody>
@@ -801,23 +771,20 @@ if __name__ == '__main__':
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">Imagen</th>
             <th scope="col">Titulo</th>
-            <th scope="col">Precio</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         {% for item in programado_all %}
         <tr>
-            <td><img src="{{ item.picture_URL }}" alt="{{ item.title }}"></td>
             <td>{{ item.title }}</td>
-            <td>{{ item.price }}</td>
             <td>
                 <form action="{{ url_for('programadas_borrar') }}" method="post">
                     <input type="hidden" name="id" value="{{ item.id }}">                    
                     <input type="submit" class="btn btn-danger" value="-">
                 </form>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
@@ -886,16 +853,11 @@ def get_resultados(name='', price_max=''):
 
 @app.route('/programadas/nuevo', methods=('POST',))
 def programadas_nuevo():
-    itemId = int(request.form['itemId'])
-    title = request.form['title']
-    pictureURL = request.form['pictureURL']
-    price = request.form['price']
+        title = request.form['title']
     # We saved in the database
+
     my_program = Programado(
-        item_id=itemId,
-        title=title,
-        picture_URL=pictureURL,
-        price=price 
+        title=title
         )
     db.session.add(my_program)
     try:
@@ -1023,16 +985,11 @@ def get_resultados(name='', price_max=''):
 
 @app.route('/programadas/nuevo', methods=('POST',))
 def programadas_nuevo():
-    itemId = int(request.form['itemId'])
-    title = request.form['title']
-    pictureURL = request.form['pictureURL']
-    price = request.form['price']
+        title = request.form['title']
     # We saved in the database
+
     my_program = Programado(
-        item_id=itemId,
-        title=title,
-        picture_URL=pictureURL,
-        price=price 
+        title=title
         )
     db.session.add(my_program)
     try:
