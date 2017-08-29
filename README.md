@@ -451,7 +451,7 @@ if __name__ == '__main__':
 
 #### 2.1 Models
 
-[ES] Con **Flask-alquemy** vamos a definir la estructura de nuestra base de datos. En este caso tendremos una única tabla llamada *Programado* con los campos: *id*, *item_id*, *title*, *picture_URL* y *price*. Para ello crearemos un nuevo archivo con el nombre **models.py**.
+[ES] Con **Flask-alquemy** vamos a definir la estructura de nuestra base de datos. En este caso tendremos una única tabla llamada *Programado* con los campos: *id*, *title* y *last_item*. Para ello crearemos un nuevo archivo con el nombre **models.py**.
 
 ```python3
 from flask import Flask
@@ -465,7 +465,7 @@ db = SQLAlchemy(app)
 class Programado(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128))
-
+    last_item = db.Column(db.Integer)
 ```
 
 [ES] Esta forma de trabajar tan limpia carece de varias funcionalidades básicas, como migraciones o la posibilidad de ejecutar ordenes por medio del terminal. Para ello le sumaremos **Flask-Migrate** para las migraciones automáticas y **Flask-Script** para su gestión.
@@ -489,7 +489,7 @@ manager.add_command('db', MigrateCommand)
 class Programado(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128))
-
+    last_item = db.Column(db.Integer)
 
 if __name__ == "__main__":
     manager.run()
@@ -1062,7 +1062,7 @@ chmod +x avisador.py
 hello PyConES17
 ```
 
-#### 3.2 Send email
+#### 3.2 SMTP Server
 
 [ES] Para enviar un email si o si necesitaremos una servidor SMTP. Podéis usar GMail, Hotmail, Fastmail... o cualquier cuenta de correo. Para el taller, usaremos Mailgun. Un poderoso servicio profesional para el envío de emails. Nos permite 10.000 envíos mensuales gratuitos. Suficientes para lo que necesitamos. Creamos una cuenta.
 
@@ -1087,3 +1087,85 @@ hello PyConES17
 [ES] Aquí tendremos los accesos que necesitaremos. Dejamos abierta esta página.
 
 ![step 5](https://github.com/tanrax/flask-wallapop-watcher/raw/master/images/mailgun/5.jpg)
+
+#### 3.3 Send email
+
+[ES] Ya tenemos nuestro servidor de email. Ahora vamos a enviar un correo de prueba. Abrimos **avisador.py** para importar **flask-mail**.
+
+```python3
+from flask_mail import Mail, Message
+```
+
+[ES] Configuramos **flask-mail**. **MAIL_USERNAME** será **Default SMTP Login** de *mailgun*. Y **MAIL_PASSWORD** será **Default Password** de *mailgun*.
+
+```python3
+app.config.update(
+    MAIL_SERVER='smtp.mailgun.org',
+    MAIL_PORT=587,
+    MAIL_USERNAME='tu_default_smtp_login',
+    MAIL_PASSWORD='tu_default_password'
+)
+mail = Mail(app)
+```
+
+[ES] Creamos un comando para que nos envíe un *email* de prueba.
+
+```python3
+@manager.command
+def send_email():
+    msg = Message(
+        "Nuevo aviso",
+        sender="no-reply@pycon17.es",
+        recipients=["tu_email"]
+        )
+    msg.body = "testing"
+    msg.html = "<b>testing</b>"
+    mail.send(msg)
+```
+
+[ES] Todo junto quedaría así.
+
+```python3
+#!/usr/bin/env python3
+from flask_script import Manager
+from app import app
+from flask_mail import Mail, Message
+
+app.config.update(
+    MAIL_SERVER='smtp.mailgun.org',
+    MAIL_PORT=587,
+    MAIL_USERNAME='tu_default_smtp_login',
+    MAIL_PASSWORD='tu_default_password'
+)
+mail = Mail(app)
+
+manager = Manager(app)
+
+@manager.command
+def send_email():
+    msg = Message(
+        "Nuevo aviso",
+        sender="no-reply@pycon17.es",
+        recipients=["tu_email"]
+        )
+    msg.body = "testing"
+    msg.html = "<b>testing</b>"
+    mail.send(msg)
+
+
+if __name__ == "__main__":
+    manager.run()
+```
+
+[ES] Lo ejecutamos.
+
+```bash
+./avisador.py send_email
+```
+
+[ES] Revisamos nuestra bandeja de entrada. En caso contrario buscamos en *spam*.
+
+
+#### 3.4 History
+
+[ES] Estamos listos para notificar. La lógica será lo más sencilla posible: buscamos todos los productos que tenga la palabra almacenada. Si el último resultado es el mismo que tenemos guardado, no hacemos nada. Si es diferente, lo guardamos y enviamos un email. 

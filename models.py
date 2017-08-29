@@ -15,7 +15,7 @@ manager.add_command('db', MigrateCommand)
 class Programado(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128))
-
+    last_item = db.Column(db.Integer)
 
 if __name__ == "__main__":
     manager.run()
