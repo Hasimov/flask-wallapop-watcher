@@ -1027,3 +1027,35 @@ if __name__ == '__main__':
 
 ---
 ### Part 3 - Sending emails with new items (Envío de emails con nuevos elementos)
+
+#### 3.1 Command
+
+[ES] Ya tenemos montado nuestra interfaz para gestionar nuestras busquedas. Lo siguiente será crear un *script* que se encargue de verificar si hay nuevos resultados. Y si es así, enviarnos un *email*. El primer paso será crear con Flask un comando personalizado. Creamos un nuevo archivo llamado **avisador.py**.
+
+```python3
+#!/usr/bin/env python3
+from flask_script import Manager
+from app import app
+
+manager = Manager(app)
+
+@manager.command
+def hello():
+    print('hello PyConES17')
+
+if __name__ == "__main__":
+    manager.run()
+```
+
+[ES] Para probar que funciona ejecutamos, siempre con el entorno virtual activo, lo siguiente.
+
+```bash
+chmod +x avisador.py
+./avisador.py hello
+```
+
+[ES] Si todo ha ido bien nos responderá.
+
+```bash
+hello PyConES17
+```
