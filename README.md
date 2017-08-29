@@ -1,5 +1,7 @@
 # PyConES17
 
+![Title](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/images/title.png)
+
 ![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png)  Workshop: Flask-wallapop-watcher (Application to monitor prices in Wallapop)
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Taller: Flask-wallapop-watcher (Aplicación para vigilar precios en Wallapop)
@@ -1059,3 +1061,29 @@ chmod +x avisador.py
 ```bash
 hello PyConES17
 ```
+
+#### 3.2 Send email
+
+[ES] Para enviar un email si o si necesitaremos una servidor SMTP. Podéis usar GMail, Hotmail, Fastmail... o cualquier cuenta de correo. Para el taller, usaremos Mailgun. Un poderoso servicio profesional para el envío de emails. Nos permite 10.000 envíos mensuales gratuitos. Suficientes para lo que necesitamos. Creamos una cuenta.
+
+[Mailgun](https://signup.mailgun.com/new/signup)
+
+[ES] Creamos una nueva cuenta.
+
+![step 1](https://github.com/tanrax/flask-wallapop-watcher/raw/master/images/mailgun/1.jpg)
+
+[ES] Confirmamos nuestra cuenta por el enlace que nos han enviado a nuestro email.
+
+![step 2](https://github.com/tanrax/flask-wallapop-watcher/raw/master/images/mailgun/2.jpg)
+
+[ES] Al pulsar sobre el enlace nos llevará a esta página. Pulsamos en *Domains*.
+
+![step 3](https://github.com/tanrax/flask-wallapop-watcher/raw/master/images/mailgun/3.jpg)
+
+[ES] Entramos en nuestro dominio activo.
+
+![step 4](https://github.com/tanrax/flask-wallapop-watcher/raw/master/images/mailgun/4.jpg)
+
+[ES] Aquí tendremos los accesos que necesitaremos. Dejamos abierta esta página.
+
+![step 5](https://github.com/tanrax/flask-wallapop-watcher/raw/master/images/mailgun/5.jpg)
