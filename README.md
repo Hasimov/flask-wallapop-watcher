@@ -2,9 +2,9 @@
 
 ![Title](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/title.png)
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png)  Workshop: Flask-wallapop-watcher (Application to monitor prices in Wallapop)
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png)  Workshop: Vigilante de Wallapop (Application to monitor prices in Wallapop)
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Taller: Flask-wallapop-watcher (Aplicación para vigilar precios en Wallapop)
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Taller: Vigilante de Wallapop (Aplicación para vigilar precios en Wallapop)
 
 ## Demo
 
