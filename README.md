@@ -1032,6 +1032,8 @@ if __name__ == '__main__':
 
 #### 3.1 Command
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We already have our interface set up to manage our searches. Next, create a *script* to check for new results. And if so, send us an *email*. The first step is to create a custom command with Flask. We made a new file called **avisador. py**.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Ya tenemos montado nuestra interfaz para gestionar nuestras busquedas. Lo siguiente será crear un *script* que se encargue de verificar si hay nuevos resultados. Y si es así, enviarnos un *email*. El primer paso será crear con Flask un comando personalizado. Realizamos un nuevo archivo llamado **avisador.py**.
 
 ```python3
@@ -1049,12 +1051,16 @@ if __name__ == "__main__":
     manager.run()
 ```
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) To prove that it works, we run, always with the virtual environment active, the following.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Para probar que funciona ejecutamos, siempre con el entorno virtual activo, lo siguiente.
 
 ```bash
 chmod +x avisador.py
 ./avisador.py hello
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) If everything has gone well, he will answer us.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Si todo ha ido bien nos responderá.
 
@@ -1065,25 +1071,37 @@ hello PyConES17
 ---
 #### 3.2 SMTP Server
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) To send an email if we need an SMTP server or if we need one. You can use GMail, Hotmail, Fastmail... or any email account. For the workshop, we'll use Mailgun. A powerful professional service for sending emails. It allows us to send 10,000 free monthly mailings. Enough for what we need. We come in here.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Para enviar un email si o si necesitaremos una servidor SMTP. Podéis usar GMail, Hotmail, Fastmail... o cualquier cuenta de correo. Para el taller, usaremos Mailgun. Un poderoso servicio profesional para el envío de emails. Nos permite 10.000 envíos mensuales gratuitos. Suficientes para lo que necesitamos. Entramos aquí.
 
 [Mailgun](https://signup.mailgun.com/new/signup)
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We created a new account.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Creamos una nueva cuenta.
 
 ![step 1](https://github.com/tanrax/flask-wallapop-watcher/raw/master/workshop/mailgun/1.jpg)
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We confirm our account by clicking on the link sent to our email.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Confirmamos nuestra cuenta por el enlace que nos han enviado a nuestro email.
 
 ![step 2](https://github.com/tanrax/flask-wallapop-watcher/raw/master/workshop/mailgun/2.jpg)
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) Clicking on the link will take us to this page. We confirm our phone number and press *Domains*. Watch out! If you do not confirm your phone number, Mailgun will not work.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Al pulsar sobre el enlace nos llevará a esta página. Confirmamos nuestro teléfono y pulsamos en *Domains*. ¡Ojo! Si no confirmáis vuestro teléfono, Mailgun no funcionará.
 
 ![step 3](https://github.com/tanrax/flask-wallapop-watcher/raw/master/workshop/mailgun/3.jpg)
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We entered our active domain.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Entramos en nuestro dominio activo.
 
 ![step 4](https://github.com/tanrax/flask-wallapop-watcher/raw/master/workshop/mailgun/4.jpg)
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) Here we will have the accesses we will need. We leave this page open for later.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Aquí tendremos los accesos que necesitaremos. Dejamos abierta esta página para más adelante.
 
@@ -1092,11 +1110,15 @@ hello PyConES17
 ---
 #### 3.3 Send email
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We already have our email server. Now let's send a test email. We open **avisador.py** to import **flask-mail**.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Ya tenemos nuestro servidor de email. Ahora vamos a enviar un correo de prueba. Abrimos **avisador.py** para importar **flask-mail**.
 
 ```python3
 from flask_mail import Mail, Message
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We configure **flask-mail**. **MAIL_USERNAME** will be **Default SMTP Login**. And **MAIL_PASSWORD** will be **Default Password** from *mailgun*.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Configuramos **flask-mail**. **MAIL_USERNAME** será **Default SMTP Login** de *mailgun*. Y **MAIL_PASSWORD** será **Default Password** de *mailgun*.
 
@@ -1109,6 +1131,8 @@ app.config.update(
 )
 mail = Mail(app)
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We created a command for you to send us a test *email*.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Creamos un comando para que nos envíe un *email* de prueba.
 
@@ -1124,6 +1148,8 @@ def send_email():
     msg.html = "<b>testing</b>"
     mail.send(msg)
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) All together would be like this.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Todo junto quedaría así.
 
@@ -1159,18 +1185,27 @@ if __name__ == "__main__":
     manager.run()
 ```
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We execute.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Ejecutamos.
 
 ```bash
 ./avisador.py send_email
 ```
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We checked our inbox. Otherwise we look in *spam*.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Revisamos nuestra bandeja de entrada. En caso contrario buscamos en *spam*.
 
---
+---
 #### 3.4 Notification
 
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We are ready to perform the notification system. The logic will be basic: we look for all the products that have the word we have guard. We get the first *id*. If the *id* is the same one we have in the database, we don't do anything. If different, we update the database and send an email. 
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Estamos listos para realizar el sistema de notificación. La lógica será básica: buscamos todos los productos que tenga la palabra que tenemos guarda. Nos quedamos con la primera *id*. Si la *id* es la misma que tenemos en la base de datos, no hacemos nada. Si es diferente, actualizamos la base de datos y enviamos un email. 
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We Open **avisador.py**. First, we import our functionality to get the Wallapop API elements.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Abrimos **avisador.py**. Primero, importamos nuestra funcion para obtener los elementos del API de Wallapop.
 
@@ -1178,11 +1213,15 @@ if __name__ == "__main__":
 from app import app, get_resultados
 ```
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) In addition, we import our table with the saved words.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Además, importamos nuestra tabla con las palabras guardadas.
 
 ```python3
 from models import db, Programado
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We go through all the stored words.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Recorremos todas las palabras almacenadas.
 
@@ -1192,6 +1231,8 @@ def send_email():
     programados = Programado.query.all()
     for item in programados:
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We get the first *id*. That we'll use it to compare if we've got it stashed away.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Obtenemos el primer *id*. Que lo usaremos para comparar si la tenemos guardada.
 
@@ -1206,6 +1247,9 @@ def send_email():
         if int(itemId) != item.last_item:
 ```
 
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) To update in SQLAlchemy, you must obtain the result, modify the object, and return it. To illustrate the way of working I leave an example. I change the *gana* column which is a *boolean* and the *nombre* column which is a *string* column.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Para actualizar en SQLAlchemy hay que obtener el resultado, modificar el objeto, y devolverlo. Para ilustrar la forma de trabajar dejo un ejemplo. Modifico la columna *gana* que es un *boolean* y la columna *nombre* que es un *string*.
 
 ```python3
@@ -1215,6 +1259,8 @@ spartano.nombre = 'Leónidas'
 db.session.add(spartano)
 db.session.commit()
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) In our code it would be implemented as follows.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) En nuestro código quedaría implementado de la siguiente forma.
 
@@ -1236,6 +1282,8 @@ def send_email():
             except:
                 db.session.rollback()
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We just have to send the *email*.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Ya solo nos queda enviar el *email*.
 
@@ -1267,8 +1315,9 @@ def send_email():
             mail.send(msg)
 ```
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Todo junto quedaría.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) All together would remain.
 
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Todo junto quedaría.
 
 ```python3
 #!/usr/bin/env python3
@@ -1321,7 +1370,11 @@ if __name__ == "__main__":
 ---
 #### 3.5 View email
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) I am no longer sending a simple text in the *email*. I need the magic of *flask* with its *render_template*. You can see how I use two templates where I pass two variables. The *titulo* and the *id* of the item.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Ya no estoy enviando un texto sencillo en el *email*. Necesito la magia de *flask* con su *render_template*. Puedes observar como hago uso de dos plantillas donde paso dos variables. El *titulo* y la *id* del item.
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We created a new folder inside *templates* with the name *emails*. And within this, the *notificacion.html* and *notificacion.txt* file. The structure will stay that way.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Creamos una carpeta nueva dentro de *templates* con el nombre *emails*. Y dentro de esta, el archivo *notificacion.html* y *notificacion.txt*. Quedará la estructura así.
 
@@ -1337,6 +1390,8 @@ if __name__ == "__main__":
             --> master.html
 ```
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) Open *notificacion.txt* and enter.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Abrimos *notificacion.txt* e introducimos.
 
 ```txt
@@ -1346,6 +1401,8 @@ Aviso
 
 http://p.wallapop.com/i/{{ id }}?_pid=web&_me=www&campaign=mobile_item
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) And in *notificacion.html* the following.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Y en *notificacion.html* lo siguiente.
 
@@ -1366,16 +1423,22 @@ http://p.wallapop.com/i/{{ id }}?_pid=web&_me=www&campaign=mobile_item
 </html>
 ```
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) E voilà! We're all done now. When the new notices arrive we will be able to click on the link to see the product file. And if we're on the smartphone, the official application will open.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) ¡E voilà! Ya hemos terminado. Cuando nos llegue los nuevos avisos podremos pulsar en el enlace para ver la ficha del producto. Y si estamos en el smartphone, se nos abrirá la aplicación oficial.
 
 ---
 #### 3.6 Automation
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) To check and receive emails, just run the custom command. Same way as before.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Para revisar y recibir los emails solo tendrás que ejecutar el comando personalizado. De la misma forma que antes.
 
 ```bash
 ./avisador.py send_email
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) My recommendation is to run it on *cron* every hour.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Mi recomendación es ejecutarlo en un *cron* cada hora y listo.
 
