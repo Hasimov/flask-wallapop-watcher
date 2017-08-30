@@ -35,7 +35,7 @@ def send_email():
             msg = Message(
                 "Nuevo aviso",
                 sender="no-reply@pycon17.es",
-                recipients=["andros@fenollosa.email"]
+                recipients=["tu email"]
             )
             msg.body = render_template('emails/notificacion.txt', title=results[0]['title'], id=itemId)
             msg.html = render_template('emails/notificacion.html', title=results[0]['title'], id=itemId)
