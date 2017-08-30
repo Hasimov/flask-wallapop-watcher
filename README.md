@@ -1,24 +1,24 @@
 # PyConES17
 
-![Title](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/images/title.png)
+![Title](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/title.png)
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png)  Workshop: Flask-wallapop-watcher (Application to monitor prices in Wallapop)
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png)  Workshop: Flask-wallapop-watcher (Application to monitor prices in Wallapop)
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Taller: Flask-wallapop-watcher (Aplicación para vigilar precios en Wallapop)
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Taller: Flask-wallapop-watcher (Aplicación para vigilar precios en Wallapop)
 
 ## Demo
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) Currently implemented on a real site:
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) Currently implemented on a real site:
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Actualmente esta implementado en un sitio real:
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Actualmente esta implementado en un sitio real:
 
 [wallaviso.com](http://wallaviso.com)
 
 ## Run (Ejecutar)
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) For the impatient, you can play with the finished exercise. You should download the code and execute the following commands.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) For the impatient, you can play with the finished exercise. You should download the code and execute the following commands.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Para los impacientes, podéis jugar con el ejercicio acabado. Debéis descargar el código y ejecutar los siguientes comandos.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Para los impacientes, podéis jugar con el ejercicio acabado. Debéis descargar el código y ejecutar los siguientes comandos.
 
 ```bash
 cd flask-wallapop-watcher
@@ -32,9 +32,9 @@ python3 models.py db upgrade
 python3 app.py
 ````
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) Then open in your favorite browser, which will possibly be the fantastic Firefox, a new tab with [http://127.0.0.1:5000](http://127.0.0.1:5000)
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) Then open in your favorite browser, which will possibly be the fantastic Firefox, a new tab with [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Después abrir en tu navegador favorito, que posiblemente será el fantástico Firefox, una pestaña nueva con [http://127.0.0.1:5000](http://127.0.0.1:5000)
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Después abrir en tu navegador favorito, que posiblemente será el fantástico Firefox, una pestaña nueva con [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
 ---
 ## Workshop (Taller)
@@ -61,9 +61,9 @@ ping -c 5 google.com
 
 #### 1.1 Ready? 
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) We prepare our virtual environment.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We prepare our virtual environment.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Preparamos nuestro entorno virtual.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Preparamos nuestro entorno virtual.
 
 ```bash
 mkdir flask-wallapop-watcher
@@ -78,9 +78,9 @@ pip3 install -r requirements.txt
 ---
 #### 1.1 Hello PyConES17
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) Template Flask. We created a new file called **app.py**.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) Template Flask. We created a new file called **app.py**.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Plantilla Flask. Creamos un nuevo archivo llamado **app.py**.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Plantilla Flask. Creamos un nuevo archivo llamado **app.py**.
 
 ```python3
 from flask import Flask
@@ -99,9 +99,9 @@ if __name__ == '__main__':
     app.run()
 ```
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) We run and check that everything works.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We run and check that everything works.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Ejecutamos y comprobamos que todo funciona.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Ejecutamos y comprobamos que todo funciona.
 
 ```bash
 python3 app.py
@@ -114,9 +114,9 @@ http://127.0.0.1:5000
 ---
 #### 1.2 Templates
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) We created a folder called **templates**. Inside we make two more folders: **layouts** and **items**. In **layouts** we will make a new one with the name **master.html**.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We created a folder called **templates**. Inside we make two more folders: **layouts** and **items**. In **layouts** we will make a new one with the name **master.html**.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Creamos una carpeta llamada **templates**. Dentro dos más: **layouts** y **items**. En **layouts** haremos uno nuevo con el nombre **master.html**.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Creamos una carpeta llamada **templates**. Dentro dos más: **layouts** y **items**. En **layouts** haremos uno nuevo con el nombre **master.html**.
 
 ```jinja2
 <!DOCTYPE html>
@@ -139,9 +139,9 @@ http://127.0.0.1:5000
 </html>
 ```
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) In **items** we are going to have our first real page that will inherit from **master.html**. Within **items** we create **searcher.html**.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) In **items** we are going to have our first real page that will inherit from **master.html**. Within **items** we create **searcher.html**.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) En **items** vamos a tener nuestra primera página real que va a heredar de **master.html**. Dentro de **items** creamos **buscador.html**.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) En **items** vamos a tener nuestra primera página real que va a heredar de **master.html**. Dentro de **items** creamos **buscador.html**.
 
 ```jinja2
 {% extends 'layouts/master.html' %}
@@ -152,9 +152,9 @@ http://127.0.0.1:5000
 {% endblock %}
 ```
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) You update **app.py** to work with our template engine.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) You update **app.py** to work with our template engine.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Actulizamos **app.py** para que trabaje nuestro motor de plantillas.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Actulizamos **app.py** para que trabaje nuestro motor de plantillas.
 
 ```python3
 from flask import Flask, render_template
@@ -174,9 +174,9 @@ if __name__ == '__main__':
     app.run()
 ```
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) We create the second page where we will have our searches stored. Within **items** we create a new file with the name of **programadas.html**.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We create the second page where we will have our searches stored. Within **items** we create a new file with the name of **programadas.html**.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Creamos la segunda página donde tendremos nuestras busquedas almacenadas. Dentro de **items** creamos un fichero nuevo con el nombre de **programadas.html**.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Creamos la segunda página donde tendremos nuestras busquedas almacenadas. Dentro de **items** creamos un fichero nuevo con el nombre de **programadas.html**.
 
 ```jinja2
 {% extends 'layouts/master.html' %}
@@ -187,9 +187,9 @@ if __name__ == '__main__':
 {% endblock %}
 ```
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) We update **app.py** with the new page.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We update **app.py** with the new page.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Actulizamos **app.py** con la nueva página.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Actulizamos **app.py** con la nueva página.
 
 ```python3
 from flask import Flask, render_template
@@ -214,9 +214,9 @@ if __name__ == '__main__':
     app.run()
 ```
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) As a final detail we will make our browser buttons have the correct routes.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) As a final detail we will make our browser buttons have the correct routes.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Como último detalle haremos que nuestros botones del navegador tengan las rutas correctas.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Como último detalle haremos que nuestros botones del navegador tengan las rutas correctas.
 
 ```jinja2
 <!DOCTYPE html>
@@ -242,9 +242,9 @@ if __name__ == '__main__':
 ---
 #### 1.3 Forms
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) We make the new file **forms.py**.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We make the new file **forms.py**.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Realizamos el nuevo archivo **forms.py**.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Realizamos el nuevo archivo **forms.py**.
 
 ```python3
 from flask_wtf import FlaskForm
@@ -257,9 +257,9 @@ class SearchForm(FlaskForm):
     price_max = IntegerField('Precio', [NumberRange(1, message='No puede ser inferior a 1'), Optional()])
 ```
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) We load it and pass it to the template.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We load it and pass it to the template.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Lo cargamos y se lo pasamos a la plantilla.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Lo cargamos y se lo pasamos a la plantilla.
 
 ```python3
 from flask import Flask, render_template
@@ -287,9 +287,9 @@ if __name__ == '__main__':
     app.run()
 ```
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) We print the fields with a **loop** in our template **buscador.html**.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We print the fields with a **loop** in our template **buscador.html**.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Imprimimos los campos con un **bucle** en nuestra plantilla **buscador.html**.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Imprimimos los campos con un **bucle** en nuestra plantilla **buscador.html**.
 
 ```jinja2
 {% extends 'layouts/master.html' %}
@@ -331,9 +331,9 @@ if __name__ == '__main__':
 ---
 #### 1.4 Search
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) It's time for fun. First we update our **app.py** to get the form data if you pass the validations. Then, with that information, we will make a call to the Wallapop API. We will only need the URL that they use in your APP. With **urllib3** we will have all the results in a simple dictionary. Which is great, since it is easy to iterate within our template.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) It's time for fun. First we update our **app.py** to get the form data if you pass the validations. Then, with that information, we will make a call to the Wallapop API. We will only need the URL that they use in your APP. With **urllib3** we will have all the results in a simple dictionary. Which is great, since it is easy to iterate within our template.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Ha llegado la hora de lo divertido. Primero actulizamos nuestro **app.py** para obtener los datos del formulario si pasa las validaciones. Después, con esa información, haremos una llamada al API de Wallapop. Solo necesitaremos la URL que utilizan en su APP. Con *urllib3* tendremos todos los resultados en un sencillo diccionario. Lo cual es magnífico, ya que es fácil de iterar dentro de nuestra plantilla.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Ha llegado la hora de lo divertido. Primero actulizamos nuestro **app.py** para obtener los datos del formulario si pasa las validaciones. Después, con esa información, haremos una llamada al API de Wallapop. Solo necesitaremos la URL que utilizan en su APP. Con *urllib3* tendremos todos los resultados en un sencillo diccionario. Lo cual es magnífico, ya que es fácil de iterar dentro de nuestra plantilla.
 
 ```python3
 from flask import Flask, render_template, request
@@ -382,9 +382,9 @@ if __name__ == '__main__':
     app.run()
 ```
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) And in our template of **buscador.html**.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) And in our template of **buscador.html**.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Y en nuestra plantilla de **buscador.html**.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Y en nuestra plantilla de **buscador.html**.
 
 ```jinja2
 {% extends 'layouts/master.html' %}
@@ -435,16 +435,16 @@ if __name__ == '__main__':
 {% endblock %}
 ```
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) And ... *Voilá*.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) And ... *Voilá*.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Y... *Voilá*.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Y... *Voilá*.
 
 
 ### Break (Descanso) - 10 min
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) We debug bugs and prepare for the next point.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We debug bugs and prepare for the next point.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Depuramos bugs y nos preparamos para el siguiente punto.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Depuramos bugs y nos preparamos para el siguiente punto.
 
 ---
 ### Part 2 - Databases and CRUD with Flask (Bases de datos y CRUD elementos con Flask)
@@ -1023,9 +1023,9 @@ if __name__ == '__main__':
 ---
 ### Break (Descanso) - 10 min
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/en.png) We take air for the last part. Otherwise, we make as we go to the bathroom and do not come back.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We take air for the last part. Otherwise, we make as we go to the bathroom and do not come back.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/static/es.png) Cogemos aire para la última parte. En caso contrario, hacemos como que vamos al baño y nos piramos.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Cogemos aire para la última parte. En caso contrario, hacemos como que vamos al baño y nos piramos.
 
 ---
 ### Part 3 - Sending emails with new items (Envío de emails con nuevos elementos)
@@ -1070,23 +1070,23 @@ hello PyConES17
 
 [ES] Creamos una nueva cuenta.
 
-![step 1](https://github.com/tanrax/flask-wallapop-watcher/raw/master/images/mailgun/1.jpg)
+![step 1](https://github.com/tanrax/flask-wallapop-watcher/raw/master/workshop/mailgun/1.jpg)
 
 [ES] Confirmamos nuestra cuenta por el enlace que nos han enviado a nuestro email.
 
-![step 2](https://github.com/tanrax/flask-wallapop-watcher/raw/master/images/mailgun/2.jpg)
+![step 2](https://github.com/tanrax/flask-wallapop-watcher/raw/master/workshop/mailgun/2.jpg)
 
 [ES] Al pulsar sobre el enlace nos llevará a esta página. Pulsamos en *Domains*.
 
-![step 3](https://github.com/tanrax/flask-wallapop-watcher/raw/master/images/mailgun/3.jpg)
+![step 3](https://github.com/tanrax/flask-wallapop-watcher/raw/master/workshop/mailgun/3.jpg)
 
 [ES] Entramos en nuestro dominio activo.
 
-![step 4](https://github.com/tanrax/flask-wallapop-watcher/raw/master/images/mailgun/4.jpg)
+![step 4](https://github.com/tanrax/flask-wallapop-watcher/raw/master/workshop/mailgun/4.jpg)
 
 [ES] Aquí tendremos los accesos que necesitaremos. Dejamos abierta esta página.
 
-![step 5](https://github.com/tanrax/flask-wallapop-watcher/raw/master/images/mailgun/5.jpg)
+![step 5](https://github.com/tanrax/flask-wallapop-watcher/raw/master/workshop/mailgun/5.jpg)
 
 #### 3.3 Send email
 
@@ -1166,6 +1166,207 @@ if __name__ == "__main__":
 [ES] Revisamos nuestra bandeja de entrada. En caso contrario buscamos en *spam*.
 
 
-#### 3.4 History
+#### 3.4 Notification
 
-[ES] Estamos listos para notificar. La lógica será lo más sencilla posible: buscamos todos los productos que tenga la palabra almacenada. Si el último resultado es el mismo que tenemos guardado, no hacemos nada. Si es diferente, lo guardamos y enviamos un email. 
+[ES] Estamos listos para realizar el sistema de notificación. La lógica será de lo más sencilla: buscamos todos los productos que tenga la palabra que tenemos guarda. Nos quedamos con la primera *id*. Si la *id* es la misma que tenemos en la misma de la base de datos, no hacemos nada. Si es diferente, actualizamos la base de datos y enviamos un email. 
+
+[ES] Abrimos **avisador.py**. Primero, importamos nuestra funcion para obtener los elementos del API de Wallapop.
+
+```python3
+from app import app, get_resultados
+```
+
+[ES] Además, importamos nuestra tabla con las palabras guardadas.
+
+```python3
+from models import db, Programado
+```
+
+[ES] Recorremos todas las palabras almacenadas.
+
+```python3
+@manager.command
+def send_email():
+    programados = Programado.query.all()
+    for item in programados:
+```
+
+[ES] Obtenemos el primer *id*. Que lo usaremos para comparar.
+
+```python3
+@manager.command
+def send_email():
+    programados = Programado.query.all()
+    for item in programados:
+    # Get last id
+    results = get_resultados(item.title)
+    itemId = results[0]['itemId']
+    if int(itemId) != item.last_item:
+```
+
+[ES] Para actualizar en SQLAlchemy hay que obtener el resultado, modificar el objeto, y volverlo. El siguiente ejemplo modifico la columna *gana* que es un *boolean* y la columna *nombre* que es un *string*.
+
+```python3
+spartano = User.query.filter_by(id=1).first()
+spartano.gana = False
+spartano.nombre = 'Leónidas'
+db.session.add(spartano)
+db.session.commit()
+```
+
+[ES] En nuestro código quedaría implementado de la siguiente forma.
+
+```python3
+@manager.command
+def send_email():
+    programados = Programado.query.all()
+    for item in programados:
+    # Get last id
+    results = get_resultados(item.title)
+    itemId = results[0]['itemId']
+    # Update last item in database
+    if int(itemId) != item.last_item:
+        programado_update = Programado.query.filter_by(id=item.id).first()
+        programado_update.last_item = itemId
+        db.session.add(programado_update)
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+```
+
+[ES] Ya solo nos queda enviar el *email*.
+
+```python3
+@manager.command
+def send_email():
+    programados = Programado.query.all()
+    for item in programados:
+        # Get last id
+        results = get_resultados(item.title)
+        itemId = results[0]['itemId']
+        # Update last item in database
+        if int(itemId) != item.last_item:
+            programado_update = Programado.query.filter_by(id=item.id).first()
+            programado_update.last_item = itemId
+            db.session.add(programado_update)
+            try:
+                db.session.commit()
+            except:
+                db.session.rollback()
+            # Send email
+            msg = Message(
+                "Nuevo aviso",
+                sender="no-reply@pycon17.es",
+                recipients=["tu email"]
+            )
+            msg.body = render_template('emails/notificacion.txt', title=results[0]['title'], id=itemId)
+            msg.html = render_template('emails/notificacion.html', title=results[0]['title'], id=itemId)
+            mail.send(msg)
+```
+
+[ES] Todo junto quedaría.
+
+
+```python3
+#!/usr/bin/env python3
+from flask import render_template
+from flask_script import Manager
+from app import app, get_resultados
+from flask_mail import Mail, Message
+from models import db, Programado
+
+app.config.update(
+    MAIL_SERVER='smtp.mailgun.org',
+    MAIL_PORT=587,
+    MAIL_USERNAME='tu_default_smtp_login',
+    MAIL_PASSWORD='tu_default_password'
+)
+mail = Mail(app)
+
+manager = Manager(app)
+
+@manager.command
+def send_email():
+    programados = Programado.query.all()
+    for item in programados:
+        # Get last id
+        results = get_resultados(item.title)
+        itemId = results[0]['itemId']
+        # Update last item in database
+        if int(itemId) != item.last_item:
+            programado_update = Programado.query.filter_by(id=item.id).first()
+            programado_update.last_item = itemId
+            db.session.add(programado_update)
+            try:
+                db.session.commit()
+            except:
+                db.session.rollback()
+            # Send email
+            msg = Message(
+                "Nuevo aviso",
+                sender="no-reply@pycon17.es",
+                recipients=["tu email"]
+            )
+            msg.body = render_template('emails/notificacion.txt', title=results[0]['title'], id=itemId)
+            msg.html = render_template('emails/notificacion.html', title=results[0]['title'], id=itemId)
+            mail.send(msg)
+
+if __name__ == "__main__":
+    manager.run()
+```
+
+[ES] Ya no estoy enviando un texto sencillo en el *email*. Necesito la magia de *flask* con su *render_template*. Puedes observar como hago uso de dos plantillas donde paso dos variables. El *titulo* y la *id* del item.
+
+[ES] Creamos una carpeta nueva dentro de *templates* con el nombre *emails*. Y dentro de esta, el archivo *notificacion.html* y *notificacion.txt*. Quedará la siguiente estructura.
+
+```bash
+--> templates
+        --> emails
+            --> notificacion.html
+            --> notificacion.txt
+        --> items
+            --> buscador.html
+            --> programadas.html
+        --> layouts
+            --> master.html
+```
+
+[ES] Abrimos *notificacion.txt* e introducimos.
+
+```txt
+Aviso
+
+{{ title }}
+
+http://p.wallapop.com/i/{{ id }}?_pid=web&_me=www&campaign=mobile_item
+```
+
+[ES] Y en *notificacion.html* lo siguiente.
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Notificacion</title>
+</head>
+<body>
+   <h1>Aviso</h1> 
+   <h2>{{ title }}</h2>
+   <a href="http://p.wallapop.com/i/{{ id }}?_pid=web&_me=www&campaign=mobile_item">Ver</a>
+</body>
+</html>
+```
+
+[ES] ¡E voilà! Ya hemos terminado. Solo tendrás que ejecutar el comando personalizado en cada ocasion que desees revisar nuevos items. De la misma forma que antes.
+
+```bash
+./avisador.py send_email
+```
+
+[ES] Mi recomendación es ejecutarlo en un *cron* cada hora y listo.
+
+![aplausos](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/aplausos.jpg)

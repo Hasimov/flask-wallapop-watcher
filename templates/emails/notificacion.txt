@@ -1,0 +1,3 @@
+Aviso
+{{ title }}
+http://p.wallapop.com/i/{{ id }}?_pid=web&_me=www&campaign=mobile_item

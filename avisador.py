@@ -1,8 +1,9 @@
+#!/usr/bin/env python3
+from flask import render_template
 from flask_script import Manager
+from app import app, get_resultados
 from flask_mail import Mail, Message
 from models import db, Programado
-
-from app import app
 
 app.config.update(
     MAIL_SERVER='smtp.mailgun.org',
@@ -15,21 +16,31 @@ mail = Mail(app)
 manager = Manager(app)
 
 @manager.command
-def buscar_y_notificar():
-    msg = Message(
-        "Nuevo aviso",
-        sender="no-reply@pycon17.es",
-        recipients=["andros@fenollosa.email"]
-        )
-    msg.body = "testing"
-    msg.html = "<b>testing</b>"
-    mail.send(msg)
-
-
-@manager.command
-def test():
-    programado_all = Programado.query.all()
-    app.get_resultados()
+def send_email():
+    programados = Programado.query.all()
+    for item in programados:
+        # Get last id
+        results = get_resultados(item.title)
+        itemId = results[0]['itemId']
+        # Update last item in database
+        if int(itemId) != item.last_item:
+            programado_update = Programado.query.filter_by(id=item.id).first()
+            programado_update.last_item = itemId
+            db.session.add(programado_update)
+            try:
+                db.session.commit()
+            except:
+                db.session.rollback()
+            # Send email
+            msg = Message(
+                "Nuevo aviso",
+                sender="no-reply@pycon17.es",
+                recipients=["andros@fenollosa.email"]
+            )
+            msg.body = render_template('emails/notificacion.txt', title=results[0]['title'], id=itemId)
+            msg.html = render_template('emails/notificacion.html', title=results[0]['title'], id=itemId)
+            mail.send(msg)
 
 if __name__ == "__main__":
     manager.run()
+
