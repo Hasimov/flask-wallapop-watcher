@@ -1482,3 +1482,7 @@ http://p.wallapop.com/i/{{ id }}?_pid=web&_me=www&campaign=mobile_item
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Mi recomendación es ejecutarlo en un *cron* cada hora y listo.
 
 ![aplausos](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/aplausos.jpg)
+
+#### Entrada de blog en castellano:
+
+[Tutorial de flask para realizar un notificador de Wallapop](https://programadorwebvalencia.com/tutorial-de-flask-para-realizar-un-notificador-de-wallapop/)
