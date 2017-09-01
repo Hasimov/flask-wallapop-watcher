@@ -21,6 +21,7 @@
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Para los impacientes, podéis jugar con el ejercicio acabado. Debéis descargar el código y ejecutar los siguientes comandos.
 
 ```bash
+git clone https://github.com/tanrax/flask-wallapop-watcher.git
 cd flask-wallapop-watcher
 pip3 install virtualenv
 virtualenv --python=python3 .venv
