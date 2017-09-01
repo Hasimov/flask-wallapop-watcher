@@ -435,9 +435,9 @@ if __name__ == '__main__':
 {% endblock %}
 ```
 
-![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) And ... *Voilá*.
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) And... we already have an unofficial search engine.
 
-![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Y... *Voilá*.
+![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Y... ya tenemos un buscador no oficial.
 
 
 ### Break (Descanso) - 10 min
@@ -450,6 +450,8 @@ if __name__ == '__main__':
 ### Part 2 - Databases and CRUD with Flask (Bases de datos y CRUD elementos con Flask)
 
 #### 2.1 Models
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) With **Flask-alquemy** we will define the structure of our database. In this case we will have a single table called *Programdo* with the fields: *id*, *title* and *last_item*. To do this we will create a new file with the name **models.py**.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Con **Flask-alquemy** vamos a definir la estructura de nuestra base de datos. En este caso tendremos una única tabla llamada *Programado* con los campos: *id*, *title* y *last_item*. Para ello crearemos un nuevo archivo con el nombre **models.py**.
 
@@ -467,6 +469,8 @@ class Programado(db.Model):
     title = db.Column(db.String(128))
     last_item = db.Column(db.Integer)
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) This clean way of working lacks several basic functionalities, such as migrations or the possibility of executing orders through the terminal. To do this, we'll add **Flask-Migrate** for automatic migrations and **Flask-Script** for managing them.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Esta forma de trabajar tan limpia carece de varias funcionalidades básicas, como migraciones o la posibilidad de ejecutar ordenes por medio del terminal. Para ello le sumaremos **Flask-Migrate** para las migraciones automáticas y **Flask-Script** para su gestión.
 
@@ -495,6 +499,8 @@ if __name__ == "__main__":
     manager.run()
 ```
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We opened our terminal and started the database, created the first migration and updated the database.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Abrimos nuestro terminal e iniciamos la base de datos, creamos la primera migración y actualizamos la base de datos.
 
 ```bash
@@ -502,6 +508,8 @@ python3 models.py db init
 python3 models.py db migrate
 python3 models.py db upgrade
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We found that everything went well.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Comprobamos que todo ha ido bien.
 
@@ -513,6 +521,9 @@ sqlite3 database.sqlite
 
 ---
 #### 2.2 Save item
+
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) To save an element we need to modify our template **buscador.html**. We will send a *POST*. How simply a **<form>** with the hidden variables will be. In this case we will only display the button visible when we receive a *POST* request. Its purpose will be to make a request to the *programadas_nuevo()* page with the name we have searched.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Para guarda un elemento necesitamos modificar nuestra plantilla **buscador.html**. Enviaremos un *POST*. Qué sencillamente será un **<form>** con las variables ocultas. En este caso lo que haremos será mostrar el botón solamente visible cuando recibamos una petición *POST*. Su finalidad será realizar una petición a la página *programadas_nuevo()* con el nombre que hemos buscado.
 
@@ -570,13 +581,19 @@ sqlite3 database.sqlite
 {% endblock %}
 ```
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) Now, it's time to create the function for *programdas_nuevo()* in **app. py**. The first thing we tell you is that you can only accept *POST* requests. We then create variables to save the form information. We then create the record in the database. Finally we redirect to the previous page to see the new element.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Ahora, es el momento de crear la función para *programadas_nuevo()* en **app.py**. Lo primero que le indicamos es que solo puede aceptar peticiones *POST*. A continuación creamos variables para guardar la información del formulario. Después creamos el registro en la base de datos. Por último redireccionamos a la anterior página para ver el nuevo elemento.
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) Let's go in parts. We import **db** that will be our *ORM*, and **Programado** that will be the table to manipulate.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Vayamos por partes. Importamos **db** que será nuestro *ORM*, y **Programado** que será la tabla a manipular.
 
 ```python3
 from models import db, Programado
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We created the new record.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Creamos el nuevo registro.
 
@@ -586,11 +603,15 @@ my_program = Programado(
     )
 ```
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We added it to the queue.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Lo añadimos a la cola.
 
 ```python3
 db.session.add(my_program)
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) And we execute the modifications. In case he failed, I'd leave the data as it was. 
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Y ejecutamos las modificaciones. En caso que fallara, dejaría los datos como estaban. 
 
@@ -600,6 +621,8 @@ try:
 except:
     db.session.rollback()
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) Everything together will be like this.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Todo junto quedará así.
 
@@ -642,6 +665,9 @@ def get_resultados(name='', price_max=''):
     )
     return results['items']
 
+@app.route('/programadas')
+def programadas():
+    return render_template('items/programadas.html')
 
 @app.route('/programadas/nuevo', methods=('POST',))
 def programadas_nuevo():
@@ -665,6 +691,8 @@ if __name__ == '__main__':
 
 ---
 #### 2.3 View items
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) Unfortunately, we will see the empty page. For now. We will query the database to give us all the records in the **Programado** table, and pass it on to the template. To do this, we will modify the function that renders the template **programadas.html**, which in our case is called **programadas()** and is in **app. py**.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Lamentablemente veremos la página vacía. Por ahora. Haremos una consulta a la base de datos para que nos de todos los registros de la tabla **Programado**, y se lo pasaremos a la plantilla. Para ello modificaremos la función que renderiza la plantilla **programadas.html**, que en nuestro caso se llama **programadas()** y esta en **app.py**.
 
@@ -735,6 +763,8 @@ if __name__ == '__main__':
     app.run()
 ```
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We updated the **programadas.html** template with a *loop* to display all the results in an HTML table.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Actualizamos la plantilla **programadas.html** con un *bucle* para mostrar todos los resultados en una tabla de HTML.
 
 ```jinja2
@@ -762,6 +792,8 @@ if __name__ == '__main__':
 
 ---
 #### 2.4 Delete item
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We will repeat the previous strategy. In the *loop* that shows all the results in **programdas.html**, we add a form that sends us an *id* to a future function that we will define in **app.py**.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Repetiremos la estrategia anterior. En el *bucle* que muestra todos los resultados en **programadas.html**, añadimos un formulario que nos envíe un *id* a una futura función que definiremos en **app.py**.
 
@@ -795,6 +827,8 @@ if __name__ == '__main__':
 {% endblock %}
 ```
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) The way to delete a record is to search for the items you want to delete, and then put it in the queue to remove them. Finally you execute the order as before.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) La manera de eliminar un registro consiste en realizar una busqueda de los elementos que quieres eliminar, y luego ponerlo en la cola para eliminarlos. Por último ejecutas la orden como antes.
 
 ```python3
@@ -804,6 +838,8 @@ try:
 except:
     db.session.rollback()
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) It would look like this.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Quedaría así.
 
@@ -855,9 +891,8 @@ def get_resultados(name='', price_max=''):
 
 @app.route('/programadas/nuevo', methods=('POST',))
 def programadas_nuevo():
-        title = request.form['title']
+    title = request.form['title']
     # We saved in the database
-
     my_program = Programado(
         title=title
         )
@@ -888,6 +923,8 @@ if __name__ == '__main__':
 
 ---
 #### 2.5 Flash messages
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) We have a usability problem: The user is blind when adding or deleting! We need to let him know what's going on when he presses buttons. We will use the **Fash messages**. As we want them to be seen on all our pages, we modify **master.html**.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Tenemos un problema de usabilidad: ¡El usuario esta a ciegas cuando añade o borra! Tenemos que informarle de que esta pasando cuando apreta botones. Para ello nos haremos uso de los **Fash messages**. Como queremos que se vean en todas nuestras páginas, modificamos **master.html**.
 
@@ -921,21 +958,23 @@ if __name__ == '__main__':
 </html>
 ```
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) All messages will now be visible in elegant boxes of *Bootstrap*. We import **flash**.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Ahora ya será visible todos los mensajes en cajas elegantes de *Bootstrap*. Importamos **flash**.
 
 ```python3
 from flask import Flask, render_template, request, redirect, url_for, flash
 ```
 
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) And we add the messages we want to see. For example.
+
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Y añadimos los mensajes que deseamos ver. Por ejemplo.
 
 ```python3
-try:
-    db.session.commit()
-    flash('Añadida con éxito.')
-except:
-    db.session.rollback()
+flash('Añadida con éxito.')
 ```
+
+![English](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/en.png) Our **app.py** would stay that way.
 
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) Nuestro **app.py** se nos quedaría así.
 
@@ -987,9 +1026,8 @@ def get_resultados(name='', price_max=''):
 
 @app.route('/programadas/nuevo', methods=('POST',))
 def programadas_nuevo():
-        title = request.form['title']
+    title = request.form['title']
     # We saved in the database
-
     my_program = Programado(
         title=title
         )
