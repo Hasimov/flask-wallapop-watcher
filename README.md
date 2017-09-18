@@ -833,6 +833,7 @@ if __name__ == '__main__':
 ![Castellano](https://raw.githubusercontent.com/tanrax/flask-wallapop-watcher/master/workshop/es.png) La manera de eliminar un registro consiste en realizar una busqueda de los elementos que quieres eliminar, y luego ponerlo en la cola para eliminarlos. Por último ejecutas la orden como antes.
 
 ```python3
+my_program = Programado.query.get(request.form['id'])
 db.session.delete(my_program)
 try:
     db.session.commit()
